@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/introRv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/letsGoBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/intro_item" />
+
+    <TextView
+        android:id="@+id/forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:background="?selectableItemBackground"
+        android:drawableStart="@drawable/ic_arrow_forward"
+        android:drawableTint="@color/colorPrimary"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/introRv"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/skipBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Skip"
+        android:padding="8dp"
+        android:background="?selectableItemBackground"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/introRv"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/letsGoBtn"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Let's go right away!"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
