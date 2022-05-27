@@ -1,18 +1,17 @@
 package com.qnape.instaking.activity
 
-import android.R
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.*
+import com.qnape.instaking.R
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -26,10 +25,12 @@ import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails
 import java.util.*
 
 
-class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener {
+class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
     var binding: ActivityCompleteSearviceBinding? = null
     var TYPE_TITLE: String = ""
     var SERVICE_ID: Int = 0
+    val TAG = "CompleteService"
+    var environment = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCompleteSearviceBinding.inflate(layoutInflater)
@@ -55,13 +56,10 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener {
             "Reel Views"->{setSpinner(binding?.planSpinner!!, myReelViewsStrings)
             SERVICE_ID = Constant.ReelViewsServiceId}
             "Reel Likes"->{setSpinner(binding?.planSpinner!!, myReelLikesStrings)
-            SERVICE_ID = Constant.REEL_LIKES}
+            SERVICE_ID = Constant.ReelLikesServiceId}
             "Comments"->{setSpinner(binding?.planSpinner!!, myCommentsStrings)
             SERVICE_ID = Constant.CommentServiceId}
         }
-
-
-
 
 
         binding?.paymentBtn?.setOnClickListener {
@@ -120,28 +118,30 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener {
         })
 
     }
+    private fun paymentGatewayStart(amount:String) {
+        val tId = System.currentTimeMillis()
+        val tRId = System.currentTimeMillis()
+        //Integrate Payment gateway here
+        val builders = EasyUpiPayment.Builder()
+            .with(this@CompleteSearviceActivity)
+            .setPayeeName("Insta King")
+            .setPayeeVpa("Paytmqr281005050101h8jaei4hqt7a@paytm")
+            .setDescription("Insta king")
+            .setAmount(amount)
+            .setTransactionId(tId.toString())
+            .setTransactionRefId("TRID_$tRId")
+        val upi = builders.build()
+        upi.startPayment()
+        upi.setPaymentStatusListener(this)
+    }
 
     private fun callpaymentMethod(service: Int) {
         val amount = "${((((service * (binding?.requiredEd?.text.toString().toInt()))))/100)}.00"
-        val easyUpiPayment = EasyUpiPayment.Builder()
-            .with(this) // on below line we are adding upi id.
-            .setPayeeVpa(Constant.UPI)
-            .setTransactionId(UUID.randomUUID().toString().substring(0,13))
-            .setTransactionRefId(UUID.randomUUID().toString())
-            .setDescription("InstaKing services")
-            .setPayeeName("Insta King")
-            .setAmount(amount)
-            .build()
-        easyUpiPayment.startPayment()
-        // on below line we are calling a set payment
-        // status listener method to call other payment methods.
-        // on below line we are calling a set payment
-        // status listener method to call other payment methods.
-        easyUpiPayment.setPaymentStatusListener(this)
+        paymentGatewayStart(amount)
     }
 
     private fun setSpinner(mySpinner: Spinner, myStrings: Array<String>) {
-        val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, myStrings)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, myStrings)
         mySpinner.adapter=adapter
         mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -172,39 +172,48 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener {
         queue.add(sr)
     }
 
-    override fun onTransactionCompleted(transactionDetails: TransactionDetails?) {
-        val transcDetails = """
-            ${transactionDetails?.status.toString()}
-            Transaction ID : ${transactionDetails?.transactionId}
-            """.trimIndent()
-        Log.d("TAG", "onTransactionCompleted: $transcDetails")
-        val userId = Preferences.getSavedString(applicationContext, Preferences.PreferencesKey.UserID.name,"")
-        if (userId != null) {
-            setData(userId, SERVICE_ID, binding?.requiredEd?.text.toString(), binding?.linked?.text.toString())
+    private fun showCustomDialog() {
+        val viewGroup = findViewById<ViewGroup>(android.R.id.content)
+        val dialogView: View =
+            LayoutInflater.from(this@CompleteSearviceActivity).inflate(R.layout.success_dialog, viewGroup, false)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@CompleteSearviceActivity)
+        builder.setView(dialogView)
+        val alertDialog: AlertDialog = builder.create()
+        dialogView.findViewById<Button>(R.id.buttonOk).setOnClickListener {
+            alertDialog.dismiss()
         }
-        //transactionDetailsTV.setVisibility(View.VISIBLE)
-        // on below line we are setting details to our text view.
-        // on below line we are setting details to our text view.
-        //transactionDetailsTV.setText(transcDetails)
+        alertDialog.show()
+    }
+
+    override fun onTransactionCompleted(transactionDetails: TransactionDetails?) {
+        Log.d(
+            TAG,
+            "onTransactionCompleted: ${transactionDetails?.transactionId}, ${transactionDetails?.transactionRefId}"
+        )
+        val userId = Preferences.getIntString(applicationContext, Preferences.PreferencesKey.UserID.name,0)
+        if (userId != null) {
+            setData(userId.toString(), SERVICE_ID, binding?.requiredEd?.text.toString(), binding?.linked?.text.toString())
+            showCustomDialog()
+        }
     }
 
     override fun onTransactionSuccess() {
-        Toast.makeText(this, "Transaction successfully completed..", Toast.LENGTH_SHORT).show()
+        Log.d(TAG, "onTransactionSuccess: Success")
     }
 
     override fun onTransactionSubmitted() {
-        Log.e("TAG", "TRANSACTION SUBMIT");
+        Log.d(TAG, "onTransactionSubmitted: ")
     }
 
     override fun onTransactionFailed() {
-        Toast.makeText(applicationContext, "Transaction Failed..!", Toast.LENGTH_LONG).show()
+        Log.d(TAG, "onTransactionFailed: ")
     }
 
     override fun onTransactionCancelled() {
-        Toast.makeText(applicationContext, "Transaction Cancel..!", Toast.LENGTH_LONG).show()
+        Log.d(TAG, "onTransactionCancelled: ")
     }
 
     override fun onAppNotFound() {
-        Toast.makeText(applicationContext, "No app found for making transaction..!", Toast.LENGTH_LONG).show()
+        Log.d(TAG, "onAppNotFound: ")
     }
 }

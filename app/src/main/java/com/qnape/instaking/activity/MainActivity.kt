@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (Preferences.hasKey(applicationContext, Preferences.PreferencesKey.UserID.name)){
+        if (Preferences.hasKey(applicationContext, Preferences.PreferencesKey.UserID.name) == true){
            openHomeActivity()
 
         }

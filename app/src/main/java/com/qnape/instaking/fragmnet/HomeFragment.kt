@@ -1,13 +1,19 @@
 package com.qnape.instaking.fragmnet
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
 import com.qnape.instaking.activity.CompleteSearviceActivity
 import com.qnape.instaking.databinding.FragmentHomeFragmnetBinding
+
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeFragmnetBinding
@@ -30,6 +36,7 @@ class HomeFragment : Fragment() {
         binding.followers.setOnClickListener {
             openCompleteActivity("Followers")
         }
+
 
         binding.likes.setOnClickListener {
             openCompleteActivity("Likes")
