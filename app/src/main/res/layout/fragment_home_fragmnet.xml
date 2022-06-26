@@ -51,7 +51,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp"
-                            android:text="Instagram Services"
+                            android:text="Istagmly Services"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +99,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Followers"/>
+                                    android:text="Followers"
+                                    android:textColor="@color/black" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -117,7 +119,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Likes"/>
+                                    android:text="Likes"
+                                    android:textColor="@color/black" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -137,7 +140,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Views"/>
+                                    android:text="Views"
+                                    android:textColor="@color/black" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -166,6 +170,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="16dp"
                             android:text="Reel Services"
+                            android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
@@ -229,7 +234,8 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Real Views"
+                                    android:text="Reel Views"
+                                    android:textColor="@color/black"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -269,6 +275,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Reel Likes"
+                                    android:textColor="@color/black"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -307,6 +314,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Comments"
+                                    android:textColor="@color/black"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/imageView4" />

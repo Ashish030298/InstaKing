@@ -6,6 +6,27 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <queries>
+        <!-- View Intent for UPI apps -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="upi" />
+        </intent>
+
+        <!-- Chooser Intent for UPI apps -->
+        <intent>
+            <action android:name="android.intent.action.CHOOSER" />
+            <data android:scheme="upi" />
+        </intent>
+
+        <!-- Package Specific UPI Apps -->
+        <package android:name="in.amazon.mShop.android.shopping" />
+        <package android:name="in.org.npci.upiapp" />
+        <package android:name="com.google.android.apps.nbu.paisa.user" />
+        <package android:name="com.phonepe.app" />
+        <package android:name="net.one97.paytm" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

@@ -19,18 +19,20 @@ import com.android.volley.toolbox.Volley
 import com.qnape.instaking.databinding.ActivityCompleteSearviceBinding
 import com.qnape.instaking.util.Constant
 import com.qnape.instaking.util.Preferences
-import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment
-import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener
-import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails
-import java.util.*
+import dev.shreyaspatil.easyupipayment.EasyUpiPayment
+import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener
+import dev.shreyaspatil.easyupipayment.model.TransactionDetails
+import dev.shreyaspatil.easyupipayment.model.TransactionStatus
 
 
 class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
     var binding: ActivityCompleteSearviceBinding? = null
     var TYPE_TITLE: String = ""
     var SERVICE_ID: Int = 0
+    var minimum = 20
     val TAG = "CompleteService"
     var environment = false
+    private var easyUpiPayment: EasyUpiPayment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCompleteSearviceBinding.inflate(layoutInflater)
@@ -48,28 +50,34 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
         }
         when(TYPE_TITLE){
             "Followers"->{setSpinner(binding?.planSpinner!!, myFollowersStrings)
-            SERVICE_ID = Constant.FollowersServiceId}
+            SERVICE_ID = Constant.FollowersServiceId
+            minimum = 100}
             "Likes"->{setSpinner(binding?.planSpinner!!, myLikesStrings)
-            SERVICE_ID = Constant.LikesServiceId}
+            SERVICE_ID = Constant.LikesServiceId
+            minimum = 500}
             "Views"->{setSpinner(binding?.planSpinner!!, myViewsStrings)
-            SERVICE_ID = Constant.ViewsServiceId}
+            SERVICE_ID = Constant.ViewsServiceId
+            minimum = 1000}
             "Reel Views"->{setSpinner(binding?.planSpinner!!, myReelViewsStrings)
-            SERVICE_ID = Constant.ReelViewsServiceId}
+            SERVICE_ID = Constant.ReelViewsServiceId
+            minimum = 1000}
             "Reel Likes"->{setSpinner(binding?.planSpinner!!, myReelLikesStrings)
-            SERVICE_ID = Constant.ReelLikesServiceId}
+            SERVICE_ID = Constant.ReelLikesServiceId
+            minimum = 500}
             "Comments"->{setSpinner(binding?.planSpinner!!, myCommentsStrings)
-            SERVICE_ID = Constant.CommentServiceId}
+            SERVICE_ID = Constant.CommentServiceId
+            minimum = 20}
         }
-
+        binding?.maxMinTv?.text = "Min. $minimum and Max. 100000"
 
         binding?.paymentBtn?.setOnClickListener {
             if (TextUtils.isEmpty(binding?.linked?.text)){
-                Toast.makeText(applicationContext, "Please enter Instagram Link!", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Please enter Username!", Toast.LENGTH_LONG).show()
             }else if (binding?.planSpinner?.selectedItem.toString().startsWith("Select")){
                 Toast.makeText(applicationContext, "Please Select plan Type!", Toast.LENGTH_LONG).show()
             }else if (TextUtils.isEmpty(binding?.requiredEd?.text)){
                 Toast.makeText(applicationContext, "Please enter quantity!", Toast.LENGTH_LONG).show()
-            }else if ((binding?.requiredEd?.text?.length ?: 0) <= 2){
+            }else if ((binding?.requiredEd?.text?.toString()?.toInt() ?: 0) < minimum){
                 Toast.makeText(applicationContext, "Please enter valid quantity!", Toast.LENGTH_LONG).show()
             }else{
                 if (binding?.planSpinner?.selectedItem.toString().endsWith("Followers")) {
@@ -83,7 +91,7 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
                 }else if (binding?.planSpinner?.selectedItem.toString().endsWith("Reel Likes")){
                     callpaymentMethod(Constant.REEL_LIKES)
                 }else if (binding?.planSpinner?.selectedItem.toString().endsWith("Comments")){
-                    callpaymentMethod(Constant.comments)
+                    callpaymentMethod(Constant.COMMENTS)
                 }
             }
         }
@@ -98,8 +106,8 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
             }
 
             override fun afterTextChanged(s: Editable?) {
-                binding?.textCountShow?.text = "${(6 - s.toString().length)}/6"
-                if (s.toString().length >= 3){
+                if (!TextUtils.isEmpty(s)) {
+                    binding?.textCountShow?.text = "${(6 - s.toString().length)}/6"
                     if (binding?.planSpinner?.selectedItem.toString().endsWith("Followers")) {
                         binding?.priceTV?.text = "₹${(((Constant.FOLLOWERS *(s.toString().toInt()))/100).toString())}"
                     }else if (binding?.planSpinner?.selectedItem.toString().endsWith("Likes")){
@@ -111,33 +119,40 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
                     }else if (binding?.planSpinner?.selectedItem.toString().endsWith("Reel Likes")){
                         binding?.priceTV?.text = "₹${(((Constant.REEL_LIKES *(s.toString().toInt()))/100).toString())}"
                     }else if (binding?.planSpinner?.selectedItem.toString().endsWith("Comments")){
-                        binding?.priceTV?.text = "₹${(((Constant.comments *(s.toString().toInt()))/100).toString())}"
+                        binding?.priceTV?.text = "₹${(((Constant.COMMENTS *(s.toString().toInt()))/100).toString())}"
                     }
+                }else{
+                    binding?.priceTV?.text = "₹0.0"
                 }
             }
         })
 
     }
-    private fun paymentGatewayStart(amount:String) {
-        val tId = System.currentTimeMillis()
-        val tRId = System.currentTimeMillis()
-        //Integrate Payment gateway here
-        val builders = EasyUpiPayment.Builder()
-            .with(this@CompleteSearviceActivity)
-            .setPayeeName("Insta King")
-            .setPayeeVpa("Paytmqr281005050101h8jaei4hqt7a@paytm")
-            .setDescription("Insta king")
-            .setAmount(amount)
-            .setTransactionId(tId.toString())
-            .setTransactionRefId("TRID_$tRId")
-        val upi = builders.build()
-        upi.startPayment()
-        upi.setPaymentStatusListener(this)
-    }
 
     private fun callpaymentMethod(service: Int) {
         val amount = "${((((service * (binding?.requiredEd?.text.toString().toInt()))))/100)}.00"
-        paymentGatewayStart(amount)
+//        pay(amount)
+        val description = "Insta king Payment"
+        val tId = System.currentTimeMillis()
+        val tRId = System.currentTimeMillis()
+        val payeeVpa = Constant.UPI
+        val payeeName = "Insta King"
+        val easyUpiPayment = EasyUpiPayment(this@CompleteSearviceActivity,) {
+            this.payeeVpa = payeeVpa
+            this.payeeName = payeeName
+            this.payeeMerchantCode = "4344"
+            this.transactionId = "T$tId"
+            this.transactionRefId = "TR_ID$tRId"
+            this.description = description
+            this.amount = amount
+        }
+        easyUpiPayment.startPayment()
+        easyUpiPayment.setPaymentStatusListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        easyUpiPayment?.removePaymentStatusListener()
     }
 
     private fun setSpinner(mySpinner: Spinner, myStrings: Array<String>) {
@@ -185,35 +200,57 @@ class CompleteSearviceActivity : AppCompatActivity(), PaymentStatusListener{
         alertDialog.show()
     }
 
-    override fun onTransactionCompleted(transactionDetails: TransactionDetails?) {
+    override fun onTransactionCancelled() {
+        Log.d(TAG, "onTransactionCancelled: ")
+        Toast.makeText(applicationContext,"Payment Cancelled", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTransactionCompleted(transactionDetails: TransactionDetails) {
         Log.d(
             TAG,
             "onTransactionCompleted: ${transactionDetails?.transactionId}, ${transactionDetails?.transactionRefId}"
         )
+
+        when (transactionDetails.transactionStatus) {
+            TransactionStatus.SUCCESS -> onTransactionSuccess()
+            TransactionStatus.FAILURE -> onTransactionFailed()
+            TransactionStatus.SUBMITTED -> onTransactionSubmitted()
+        }
+
+
+    }
+
+    private fun onTransactionSuccess() {
+        // Payment Success
+        toast("Success")
         val userId = Preferences.getIntString(applicationContext, Preferences.PreferencesKey.UserID.name,0)
         if (userId != null) {
-            setData(userId.toString(), SERVICE_ID, binding?.requiredEd?.text.toString(), binding?.linked?.text.toString())
+            setData(
+                userId.toString(),
+                SERVICE_ID,
+                binding?.requiredEd?.text.toString(),
+                binding?.linked?.text.toString()
+            )
             showCustomDialog()
         }
+
     }
 
-    override fun onTransactionSuccess() {
-        Log.d(TAG, "onTransactionSuccess: Success")
+    private fun onTransactionSubmitted() {
+        // Payment Pending
+        toast("Pending | Submitted")
+
     }
 
-    override fun onTransactionSubmitted() {
-        Log.d(TAG, "onTransactionSubmitted: ")
+    private fun onTransactionFailed() {
+        // Payment Failed
+        toast("TransactionFailed")
+
     }
 
-    override fun onTransactionFailed() {
-        Log.d(TAG, "onTransactionFailed: ")
+    private fun toast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onTransactionCancelled() {
-        Log.d(TAG, "onTransactionCancelled: ")
-    }
 
-    override fun onAppNotFound() {
-        Log.d(TAG, "onAppNotFound: ")
-    }
 }

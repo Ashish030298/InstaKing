@@ -9,7 +9,7 @@
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/drawable/ic_success.xml" value="0.1575" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/drawable/spinner_bg.xml" value="0.1095" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/activity_checkout.xml" value="0.2" />
-        <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/activity_complete_searvice.xml" value="0.2" />
+        <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/activity_complete_searvice.xml" value="0.264" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/activity_home.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/activity_main.xml" value="0.22395833333333334" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/activity_meow_bottom_navigation_cell.xml" value="0.23802083333333332" />
@@ -19,6 +19,8 @@
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/fragment_privacy.xml" value="0.12" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/intro_item.xml" value="0.23697916666666666" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/meow_navigation_cell.xml" value="0.23802083333333332" />
+        <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/payment_details.xml" value="0.23697916666666666" />
+        <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/payment_ui_layout.xml" value="0.23697916666666666" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/layout/success_dialog.xml" value="0.152" />
         <entry key="..\:/Users/ashis/Documents/Ashish/InstaKing/app/src/main/res/xml/network_security_config.xml" value="0.23697916666666666" />
       </map>

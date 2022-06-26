@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.reelView.setOnClickListener {
-            openCompleteActivity("Real Views")
+            openCompleteActivity("Reel Views")
         }
 
         binding.reelLikes.setOnClickListener {

@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:text="Followers" />
@@ -56,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/cardView3">
@@ -71,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="19dp"
                         android:layout_marginStart="65dp"
-                        android:text="Enter Link"
+                        android:text="Enter Username"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:hint="Enter Link"
+                        android:hint="Enter Username"
                         android:textColorHint="#999"
                         app:boxStrokeColor="@color/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +94,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/linked"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -123,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="1"
+                    android:text="A"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -136,6 +139,7 @@
                 android:layout_margin="24dp"
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/planCircle">
@@ -206,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="2"
+                    android:text="B"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -218,6 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/circleQuantity">
@@ -256,12 +261,13 @@
                             android:id="@+id/requiredEd"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:inputType="number"
                             android:maxLength="6"
-                            android:inputType="number" />
+                            android:textColor="@color/black" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/maxMinTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -277,7 +283,7 @@
                         android:layout_height="wrap_content"
                         android:text="0/6"
                         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-                        app:layout_constraintTop_toTopOf="@+id/textView6" />
+                        app:layout_constraintTop_toTopOf="@+id/maxMinTv" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -308,7 +314,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="3"
+                    android:text="C"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -320,6 +326,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/circleAverage">
@@ -395,7 +402,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="4"
+                    android:text="D"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -412,7 +419,7 @@
                 android:textAllCaps="false"
                 android:backgroundTint="@color/colorPrimary"
                 android:textSize="18sp"
-                android:text="Process to pay"
+                android:text="Continue"
                 app:layout_constraintTop_toBottomOf="@+id/averageTimeLayout" />
 
 

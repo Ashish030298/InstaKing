@@ -74,7 +74,7 @@ class NotificationFragment : Fragment() {
             }
 
             webView.webViewClient = MyWebViewClient()
-            webView.loadUrl("https://demo-bottom.blogspot.com/Search-Results")
+            webView.loadUrl("https://istagmly.blogspot.com/?m=1")
 
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
