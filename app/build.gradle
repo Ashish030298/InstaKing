@@ -57,4 +57,6 @@ dependencies {
     implementation 'dev.shreyaspatil.EasyUpiPayment:EasyUpiPayment:3.0.3'
     implementation("com.android.volley:volley:1.2.1")
     implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.adcolony:sdk:4.8.0'
+    implementation('com.paypal.checkout:android-sdk:0.2.0')
 }
